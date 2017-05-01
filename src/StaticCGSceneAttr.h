@@ -1,13 +1,13 @@
 //
-//  StaticCGScene.h
+//  StaticCGSceneAttr.h
 //  demoViewer
 //
 //  Created by ryoheikomiyama on 2017/04/23.
 //
 //
 
-#ifndef StaticCGScene_h
-#define StaticCGScene_h
+#ifndef StaticCGSceneAttr_h
+#define StaticCGSceneAttr_h
 
 // meter or centimeter
 //#define METERSCALE
@@ -28,10 +28,10 @@
 
 #include "ofMain.h"
 
-namespace scgs {
+namespace scgsa {
 
 	class ColorBox {
-	public:
+
 		ofMesh mesh;
 		ofFloatColor color;
 		ofVec3f pos;
@@ -98,7 +98,7 @@ namespace scgs {
 
 
 	class Grass {
-	public:
+
 		ofMesh mesh;
 		ofFloatColor color;
 
@@ -145,16 +145,16 @@ namespace scgs {
 
 
 
-	class StaticCGScene {
-	public:
+	class StaticCGSceneAttr {
+
 		vector<ColorBox> boxes;
 		Grass grass;
 
 	public:
-		StaticCGScene() {
-			ColorBox box_r(ofFloatColor(200 / COLORSCALE, 100 / COLORSCALE, 100 / COLORSCALE), ofVec3f(0, 1, -160 / SCALE));
-			ColorBox box_y(ofFloatColor(210 / COLORSCALE, 210 / COLORSCALE, 100 / COLORSCALE), ofVec3f(-200 / SCALE, 1, -60 / SCALE));
-			ColorBox box_b(ofFloatColor(70 / COLORSCALE, 100 / COLORSCALE, 130 / COLORSCALE), ofVec3f(140 / SCALE, 1, 40 / SCALE));
+		StaticCGSceneAttr() {
+			ColorBox box_r(ofFloatColor(200 / COLORSCALE, 100 / COLORSCALE, 100 / COLORSCALE), ofVec3f(0, 0, -160 / SCALE));
+			ColorBox box_y(ofFloatColor(210 / COLORSCALE, 210 / COLORSCALE, 100 / COLORSCALE), ofVec3f(-200 / SCALE, 0, -60 / SCALE));
+			ColorBox box_b(ofFloatColor(70 / COLORSCALE, 100 / COLORSCALE, 130 / COLORSCALE), ofVec3f(140 / SCALE, 0, 40 / SCALE));
 			boxes.push_back(box_r);
 			boxes.push_back(box_y);
 			boxes.push_back(box_b);
@@ -167,53 +167,22 @@ namespace scgs {
 			grass.update();
 		}
 
-		void draw(ofShader& shader, ofMatrix4x4 mvm, ofMatrix4x4 pm) {
-			ofEnableDepthTest();
-			shader.begin();
-			shader.setUniformMatrix4f("modelViewMatrix", mvm);
-			shader.setUniformMatrix4f("projectionMatrix", pm);
+		void draw() {
 			for (auto& box : boxes) {
-				shader.setUniform3f("color", ofVec3f(box.color.r, box.color.g, box.color.b));
 				box.draw();
 			}
-			shader.setUniform3f("color", ofVec3f(grass.color.r, grass.color.g, grass.color.b));
 			grass.draw();
-			shader.end();
-			ofDisableDepthTest();
 		}
 
-		void drawWireFrame(ofShader& shader, ofMatrix4x4 mvm, ofMatrix4x4 pm) {
-			ofEnableDepthTest();
-			shader.begin();
-			shader.setUniformMatrix4f("modelViewMatrix", mvm);
-			shader.setUniformMatrix4f("projectionMatrix", pm);
+		void drawWireFrame() {
 			for (auto& box : boxes) {
-				shader.setUniform3f("color", ofVec3f(box.color.r, box.color.g, box.color.b));
 				box.drawWireFrame();
 			}
-			shader.setUniform3f("color", ofVec3f(grass.color.r, grass.color.g, grass.color.b));
 			grass.drawWireFrame();
-			shader.end();
-			ofDisableDepthTest();
-		}
-
-		void drawBlackWireFrame(ofShader& shader, ofMatrix4x4 mvm, ofMatrix4x4 pm) {
-			ofEnableDepthTest();
-			shader.begin();
-			shader.setUniformMatrix4f("modelViewMatrix", mvm);
-			shader.setUniformMatrix4f("projectionMatrix", pm);
-			for (auto& box : boxes) {
-				shader.setUniform3f("color", ofVec3f(0, 0, 0));
-				box.drawWireFrame();
-			}
-			shader.setUniform3f("color", ofVec3f(0, 0, 0));
-			grass.drawWireFrame();
-			shader.end();
-			ofDisableDepthTest();
 		}
 
 	};
 
 }
 
-#endif /* StaticCGScene_h */
+#endif /* StaticCGSceneAttr_h */

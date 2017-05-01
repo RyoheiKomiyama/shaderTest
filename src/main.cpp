@@ -6,7 +6,7 @@ int main( ){
 	// suuuuuuuuper important!!!!!!!
 	// http://www.wasted-laboratory.info/2015/07/14/ofWithGL.html
 	ofGLWindowSettings s;
-	s.setGLVersion(3, 2);
+	s.setGLVersion(4, 1);
 	ofCreateWindow(s);
 
 	// this kicks off the running of my app

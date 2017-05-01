@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "StaticCGScene.h"
+#include "StaticCGSceneAttr.h"
 
 class ofApp : public ofBaseApp{
 
@@ -23,7 +24,9 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		ofShader shader;
-		StaticCGScene staticCgScene;
+		scgs::StaticCGScene staticCgScene;
+		ofShader shader_attr;
+		scgsa::StaticCGSceneAttr staticCgSceneAttr;
 		ofShader shader_tex;
 		ofImage img;
 
