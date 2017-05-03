@@ -30,7 +30,12 @@ class ofApp : public ofBaseApp{
 		ofShader shader_tex;
 		ofImage img;
 
-		//ofEasyCam cam;
-		ofCamera cam;
-		int type = 0;
+        int type = 0;
+        //ofCamera cam;
+        ofMatrix4x4 modelToWorld;
+        ofMatrix4x4 worldToCamera;
+        ofMatrix4x4 cameraToView;
+        ofMatrix4x4 matrix;
+    
+    ofMatrix4x4 makeLookAt(ofVec3f pos, ofVec3f center, ofVec3f up);
 };

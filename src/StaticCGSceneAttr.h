@@ -10,7 +10,7 @@
 #define StaticCGSceneAttr_h
 
 // meter or centimeter
-//#define METERSCALE
+#define METERSCALE
 #ifdef METERSCALE
 #define SCALE 100.0
 #else
