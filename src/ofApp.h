@@ -30,6 +30,7 @@ class ofApp : public ofBaseApp{
 		ofShader shader_tex;
 		ofImage img;
 
-		ofEasyCam cam;
-		
+		//ofEasyCam cam;
+		ofCamera cam;
+		int type = 0;
 };

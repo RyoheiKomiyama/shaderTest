@@ -10,6 +10,11 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	
+	type = 2;
+	float theta = ofGetElapsedTimeMillis() / 1000.0*PI;
+	cam.setPosition(ofVec3f(sin(theta)*4, 2, cos(theta)*4));
+	cam.lookAt(ofVec3f(0, 0, 0), ofVec3f(0,1,0));
 
 }
 
@@ -18,30 +23,37 @@ void ofApp::draw(){
 	ofEnableAlphaBlending();
 	ofClear(0);
 
-	ofMatrix4x4 modelViewMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_MODELVIEW);
-	ofMatrix4x4 projectionMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_PROJECTION);
+	if (type == 0) {
+		cam.begin();
+		ofMatrix4x4 modelViewMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_MODELVIEW);
+		ofMatrix4x4 projectionMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_PROJECTION);
+		staticCgScene.draw(shader, modelViewMatrix, projectionMatrix);
+		staticCgScene.drawBlackWireFrame(shader, modelViewMatrix, projectionMatrix);
+		cam.end();
+	}
+	else if (type == 1) {
+		cam.begin();
+		ofMatrix4x4 modelViewMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_MODELVIEW);
+		ofMatrix4x4 projectionMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_PROJECTION);
+		shader_attr.begin();
+		shader_attr.setUniformMatrix4f("modelViewMatrix", modelViewMatrix);
+		shader_attr.setUniformMatrix4f("projectionMatrix", projectionMatrix);
+		staticCgSceneAttr.drawWireFrame();
+		shader_attr.end();
+		cam.end();
+	}
+	else if (type == 2) {
+		cam.begin();
+		ofMatrix4x4 modelViewMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_MODELVIEW);
+		ofMatrix4x4 projectionMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_PROJECTION);
+		staticCgSceneAttr.drawWireFrame();
+		cam.end();
+	}
 
-
-	/*
-	cam.begin();
-	staticCgScene.draw(shader, modelViewMatrix, projectionMatrix);
-	staticCgScene.drawBlackWireFrame(shader, modelViewMatrix, projectionMatrix);
-	cam.end();
-	*/
-
-	
-	cam.begin();
-	shader_attr.begin();
-	shader_attr.setUniformMatrix4f("modelViewMatrix", modelViewMatrix);
-	shader_attr.setUniformMatrix4f("projectionMatrix", projectionMatrix);
-	staticCgSceneAttr.drawWireFrame();
-	shader_attr.end();
-	cam.end();
-	
 	
 	shader_tex.begin();
-	shader_tex.setUniformMatrix4f("modelViewMatrix", modelViewMatrix);
-	shader_tex.setUniformMatrix4f("projectionMatrix", projectionMatrix);
+	ofMatrix4x4 modelViewMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_MODELVIEW);
+	ofMatrix4x4 projectionMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_PROJECTION);
 	img.draw(0, 0);
 	shader_tex.end();
 	
