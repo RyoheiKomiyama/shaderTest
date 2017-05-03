@@ -11,20 +11,22 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     type = 1;
-	float theta = ofGetElapsedTimeMillis() / 1000.0*PI;
-    ofVec3f pos(sin(theta)*4, -2, cos(theta)*4);
-    //ofVec3f pos(3, 2, 3);
+	float theta = ofGetElapsedTimeMillis() / 2000.0*PI;
+    //ofVec3f pos(sin(theta)*3, 2, cos(theta)*3);
+    ofVec3f pos(3, 2, 0);
     ofVec3f center(0, 0, 0);
     ofVec3f up(0, 1, 0);
 
-    modelToWorld.makeIdentityMatrix();
-    worldToCamera = makeLookAt(pos, center, up);
-    cameraToView.makePerspectiveMatrix(100, ofGetWidth()/(float)ofGetHeight(), 0.01, 10000);
-    matrix = modelToWorld*worldToCamera*cameraToView;
-    //matrix = cameraToView*worldToCamera*modelToWorld;
+    cam.setPosition(pos);
+    cam.lookAt(center, up);
+    cam.setNearClip(0.01);
+    cam.setFarClip(1000);
+    cam.setFov(60);
+    cam.setAspectRatio(ofGetWidth()/(float)ofGetHeight());
     
-    //cout << worldToCamera << endl;
-    //cout << cameraToView << endl;
+    modelToWorld.makeIdentityMatrix();
+    worldToCamera = cam.getModelViewMatrix();
+    cameraToView = cam.getProjectionMatrix();
     
 }
 
@@ -44,11 +46,10 @@ void ofApp::draw(){
 	else if (type == 1) {
         ofPushView();
 		shader_attr.begin();
-        ofLoadIdentityMatrix();
-//        shader_attr.setUniformMatrix4f("modelToWorld", modelToWorld);
-//        shader_attr.setUniformMatrix4f("worldToCamera", worldToCamera);
-//		shader_attr.setUniformMatrix4f("cameraToView", cameraToView);
-        shader_attr.setUniformMatrix4f("matrix", matrix);
+        shader_attr.setUniformMatrix4f("modelToWorld", modelToWorld);
+        shader_attr.setUniformMatrix4f("worldToCamera", worldToCamera);
+		shader_attr.setUniformMatrix4f("cameraToView", cameraToView);
+//        shader_attr.setUniformMatrix4f("matrix", matrix);
 		staticCgSceneAttr.drawWireFrame();
 		shader_attr.end();
         ofPopView();
@@ -63,13 +64,13 @@ void ofApp::draw(){
 		staticCgSceneAttr.drawWireFrame();
 	}
 	
-    /*
+    
 	shader_tex.begin();
 	ofMatrix4x4 modelViewMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_MODELVIEW);
 	ofMatrix4x4 projectionMatrix = ofGetCurrentMatrix(ofMatrixMode::OF_MATRIX_PROJECTION);
 	img.draw(0, 0);
 	shader_tex.end();
-	*/
+	
 
 	ofDisableAlphaBlending();
 }

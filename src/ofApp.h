@@ -31,7 +31,7 @@ class ofApp : public ofBaseApp{
 		ofImage img;
 
         int type = 0;
-        //ofCamera cam;
+        ofCamera cam;
         ofMatrix4x4 modelToWorld;
         ofMatrix4x4 worldToCamera;
         ofMatrix4x4 cameraToView;

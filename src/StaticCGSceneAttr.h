@@ -46,14 +46,14 @@ namespace scgsa {
 			// vertices
 			float box_size = 60 / SCALE;
 			vector<ofVec3f> vertices = {
-				ofVec3f(0, 0, 0),
-				ofVec3f(0, box_size, 0),
-				ofVec3f(box_size, box_size, 0),
-				ofVec3f(box_size, 0, 0),
-				ofVec3f(0, 0, box_size),
-				ofVec3f(0, box_size, box_size),
-				ofVec3f(box_size, box_size, box_size),
-				ofVec3f(box_size, 0, box_size)
+				ofVec3f(0, 0, 0)+pos,
+				ofVec3f(0, box_size, 0)+pos,
+				ofVec3f(box_size, box_size, 0)+pos,
+				ofVec3f(box_size, 0, 0)+pos,
+				ofVec3f(0, 0, box_size)+pos,
+				ofVec3f(0, box_size, box_size)+pos,
+				ofVec3f(box_size, box_size, box_size)+pos,
+				ofVec3f(box_size, 0, box_size)+pos
 			};
 			mesh.addVertices(vertices);
 
@@ -81,17 +81,11 @@ namespace scgsa {
 		void update() {}
 
 		void draw() {
-			ofPushMatrix();
-			ofTranslate(pos);
 			mesh.draw();
-			ofPopMatrix();
 		}
 
 		void drawWireFrame() {
-			ofPushMatrix();
-			ofTranslate(pos);
 			mesh.drawWireframe();
-			ofPopMatrix();
 		}
 
 	};
