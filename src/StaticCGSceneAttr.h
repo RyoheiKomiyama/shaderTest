@@ -95,21 +95,21 @@ namespace scgsa {
 
 		ofMesh mesh;
 		ofFloatColor color;
+        ofVec3f pos;
 
 	public:
-		Grass(ofFloatColor color) {
+		Grass(ofFloatColor color, ofVec3f pos) {
 
-			// color
 			this->color = color;
+            this->pos = pos;
 
 			// vertices
-			float square_size = 200 / SCALE;
 			vector<ofVec3f> vertices = {
-				ofVec3f(-square_size, 0, -square_size),
-				ofVec3f(-square_size, 0, square_size),
-				ofVec3f(square_size, 0, square_size),
-				ofVec3f(square_size, 0, -square_size)
-			};
+                ofVec3f(0, 0, 0) + pos,
+                ofVec3f(200/SCALE, 0, 0) + pos,
+                ofVec3f(200/SCALE, 0, 100/SCALE) + pos,
+                ofVec3f(0, 0, 100/SCALE) + pos
+            };
 			mesh.addVertices(vertices);
 
 			vector<ofFloatColor> colors;
@@ -159,10 +159,18 @@ namespace scgsa {
 			boxes.push_back(box_y_black);
 			boxes.push_back(box_b_black);
 
-			Grass grass(ofFloatColor(80 / COLORSCALE, 120 / COLORSCALE, 60 / COLORSCALE));
-			Grass grass_black(ofFloatColor(0, 0, 0));
-			grasses.push_back(grass);
-			grasses.push_back(grass_black);
+            for(int i=0; i<2; i++){
+                for(int j=0; j<4; j++){
+                    Grass grass(ofFloatColor(80 / COLORSCALE, 120 / COLORSCALE, 60 / COLORSCALE), ofVec3f(2*(i-1)*100/SCALE, 0, (j-2)*100/SCALE));
+                    grasses.push_back(grass);
+                }
+            }
+            for(int i=0; i<2; i++){
+                for(int j=0; j<4; j++){
+                    Grass grass_black(ofFloatColor(0, 0, 0), ofVec3f(2*(i-1)*100/SCALE, 0, (j-2)*100/SCALE));
+                    grasses.push_back(grass_black);
+                }
+            }
 		}
 
 		void update() {
@@ -178,21 +186,27 @@ namespace scgsa {
 			for (int i = 0; i < 3; i++) {
 				boxes[i].draw();
 			}
-			grasses[0].draw();
+            for (int i=0; i<8; i++){
+                grasses[i].draw();
+            }
 		}
 
 		void drawWireFrame() {
 			for (int i = 0; i < 3; i++) {
 				boxes[i].drawWireFrame();
 			}
-			grasses[0].drawWireFrame();
+            for (int i=0; i<8; i++){
+                grasses[i].drawWireFrame();
+            }
 		}
 
 		void drawBlackWireFrame() {
 			for (int i = 3; i < 6; i++) {
 				boxes[i].drawWireFrame();
 			}
-			grasses[1].drawWireFrame();
+            for (int i=8; i<16; i++){
+                grasses[i].drawWireFrame();
+            }
 		}
 
 	};
