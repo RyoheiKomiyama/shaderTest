@@ -97,10 +97,10 @@ namespace scgsa {
 		ofFloatColor color;
 
 	public:
-		Grass() {
+		Grass(ofFloatColor color) {
 
 			// color
-			color = ofFloatColor(80 / COLORSCALE, 120 / COLORSCALE, 60 / COLORSCALE);
+			this->color = color;
 
 			// vertices
 			float square_size = 200 / SCALE;
@@ -142,7 +142,7 @@ namespace scgsa {
 	class StaticCGSceneAttr {
 
 		vector<ColorBox> boxes;
-		Grass grass;
+		vector<Grass> grasses;
 
 	public:
 		StaticCGSceneAttr() {
@@ -152,27 +152,47 @@ namespace scgsa {
 			boxes.push_back(box_r);
 			boxes.push_back(box_y);
 			boxes.push_back(box_b);
+			ColorBox box_r_black(ofFloatColor(0, 0, 0), ofVec3f(0, 0, -160 / SCALE));
+			ColorBox box_y_black(ofFloatColor(0, 0, 0), ofVec3f(-200 / SCALE, 0, -60 / SCALE));
+			ColorBox box_b_black(ofFloatColor(0, 0, 0), ofVec3f(140 / SCALE, 0, 40 / SCALE));
+			boxes.push_back(box_r_black);
+			boxes.push_back(box_y_black);
+			boxes.push_back(box_b_black);
+
+			Grass grass(ofFloatColor(80 / COLORSCALE, 120 / COLORSCALE, 60 / COLORSCALE));
+			Grass grass_black(ofFloatColor(0, 0, 0));
+			grasses.push_back(grass);
+			grasses.push_back(grass_black);
 		}
 
 		void update() {
 			for (auto& box : boxes) {
 				box.update();
 			}
-			grass.update();
+			for (auto& grass : grasses) {
+				grass.update();
+			}
 		}
 
 		void draw() {
-			for (auto& box : boxes) {
-				box.draw();
+			for (int i = 0; i < 3; i++) {
+				boxes[i].draw();
 			}
-			grass.draw();
+			grasses[0].draw();
 		}
 
 		void drawWireFrame() {
-			for (auto& box : boxes) {
-				box.drawWireFrame();
+			for (int i = 0; i < 3; i++) {
+				boxes[i].drawWireFrame();
 			}
-			grass.drawWireFrame();
+			grasses[0].drawWireFrame();
+		}
+
+		void drawBlackWireFrame() {
+			for (int i = 3; i < 6; i++) {
+				boxes[i].drawWireFrame();
+			}
+			grasses[1].drawWireFrame();
 		}
 
 	};
